@@ -1,0 +1,25 @@
+# Operating System
+.DS_Store
+Thumbs.db
+
+# IDE and Editor specific files
+.vscode/
+.idea/
+*.sublime-project
+xcuserdata/
+*.xcuserstate
+
+# Dependency directories
+node_modules/
+vendor/
+/target/
+
+# Tooling specific files
+# Files created by Claude Code/Anthropic tools
+.claude/
+.scratch/
+.agents/
+
+# Logs
+*.log
+core
