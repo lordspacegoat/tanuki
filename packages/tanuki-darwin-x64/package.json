@@ -1,6 +1,6 @@
 {
   "name": "@spacegoat/tanuki-darwin-x64",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Prebuilt darwin-x64 binary for @spacegoat/tanuki",
   "license": "MIT",
   "repository": {

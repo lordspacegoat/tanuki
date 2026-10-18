@@ -1,6 +1,6 @@
 {
   "name": "@spacegoat/tanuki-linux-x64-musl",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Prebuilt linux-x64-musl binary for @spacegoat/tanuki",
   "license": "MIT",
   "repository": {
