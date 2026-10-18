@@ -1,0 +1,21 @@
+{
+  "name": "tanuki-workspace",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "bun run --cwd packages/tanuki dev",
+    "test": "bun test",
+    "typecheck": "bun run --cwd packages/tanuki typecheck",
+    "build": "bun run --cwd packages/tanuki build"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

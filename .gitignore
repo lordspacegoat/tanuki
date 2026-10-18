@@ -14,12 +14,35 @@ node_modules/
 vendor/
 /target/
 
-# Tooling specific files
-# Files created by Claude Code/Anthropic tools
-.claude/
-.scratch/
-.agents/
+# Build output
+dist/
+*.tsbuildinfo
+# Bun's compile cache: one ~65 MB binary per build, dropped beside the source.
+*.bun-build
 
-# Logs
+# Logs and diagnostics
 *.log
 core
+
+# Local Tanuki state, when TANUKI_HOME points at the repository
+.tanuki/
+
+# Internal documentation
+# Design records and the originating specification are working documents: kept
+# on disk, kept out of the repository. README.md and SECURITY.md are the public
+# documentation for users and contributors.
+docs/
+Tanuki.md
+
+# AI and agent tooling
+.claude/
+.agents/
+.scratch/
+.cursor/
+.windsurf/
+.codex/
+.cursorrules
+.aider*
+AGENTS.md
+CLAUDE.md
+skills-lock.json

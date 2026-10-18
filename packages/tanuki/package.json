@@ -1,0 +1,46 @@
+{
+  "name": "@spacegoat/tanuki",
+  "version": "1.0.0",
+  "description": "Manage Cloudflare API credentials, group zones, and purge caches from the terminal",
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "tanuki": "bin/tanuki.js"
+  },
+  "files": [
+    "bin"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "cloudflare",
+    "cache",
+    "purge",
+    "tui",
+    "terminal",
+    "cli"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lordspacegoat/tanuki.git",
+    "directory": "packages/tanuki"
+  },
+  "optionalDependencies": {},
+  "dependencies": {
+    "@opentui/core": "0.6.6",
+    "@opentui/keymap": "0.6.6",
+    "@opentui/react": "0.6.6",
+    "react": "^19.2.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.0"
+  },
+  "scripts": {
+    "dev": "bun run src/index.ts",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit",
+    "build": "bun build src/index.ts --compile --outfile dist/tanuki"
+  }
+}
