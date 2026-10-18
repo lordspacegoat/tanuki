@@ -131,7 +131,6 @@ describe("platform packages", () => {
       const manifest = await platformManifest(target);
 
       expect(manifest.name).toBe(`@spacegoat/tanuki-${target}`);
-      expect(manifest.version).toBe(VERSION);
       expect(manifest.os).toEqual([expected.os]);
       expect(manifest.cpu).toEqual([expected.cpu]);
       expect(manifest.files).toEqual(["bin"]);
@@ -142,6 +141,16 @@ describe("platform packages", () => {
       // machine npm cannot classify still resolves something.
       expect(manifest.libc).toEqual(expected.libc ? [expected.libc] : undefined);
     }
+
+    // Checked together, and last: a version bump has to reach every manifest, and
+    // stopping at the first stale one would make the sixth look like the first.
+    const versions: Record<string, string> = {};
+    for (const target of Object.keys(EXPECTED)) {
+      versions[`tanuki-${target}`] = (await platformManifest(target)).version;
+    }
+    expect(versions).toEqual(
+      Object.fromEntries(Object.keys(EXPECTED).map((target) => [`tanuki-${target}`, VERSION])),
+    );
   });
 
   test("macOS is built on macOS", async () => {
