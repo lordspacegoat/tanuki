@@ -11,20 +11,55 @@
     },
     "packages/tanuki": {
       "name": "@spacegoat/tanuki",
-      "version": "0.0.0",
+      "version": "1.0.0",
       "bin": {
         "tanuki": "bin/tanuki.js",
       },
-      "dependencies": {
+      "devDependencies": {
         "@opentui/core": "0.6.6",
         "@opentui/keymap": "0.6.6",
         "@opentui/react": "0.6.6",
+        "@types/react": "^19.2.0",
         "react": "^19.2.0",
         "zod": "^4.0.0",
       },
-      "devDependencies": {
-        "@types/react": "^19.2.0",
+      "optionalDependencies": {
+        "@spacegoat/tanuki-darwin-arm64": "1.0.0",
+        "@spacegoat/tanuki-darwin-x64": "1.0.0",
+        "@spacegoat/tanuki-linux-arm64": "1.0.0",
+        "@spacegoat/tanuki-linux-arm64-musl": "1.0.0",
+        "@spacegoat/tanuki-linux-x64": "1.0.0",
+        "@spacegoat/tanuki-linux-x64-musl": "1.0.0",
+        "@spacegoat/tanuki-win32-x64": "1.0.0",
       },
+    },
+    "packages/tanuki-darwin-arm64": {
+      "name": "@spacegoat/tanuki-darwin-arm64",
+      "version": "1.0.0",
+    },
+    "packages/tanuki-darwin-x64": {
+      "name": "@spacegoat/tanuki-darwin-x64",
+      "version": "1.0.0",
+    },
+    "packages/tanuki-linux-arm64": {
+      "name": "@spacegoat/tanuki-linux-arm64",
+      "version": "1.0.0",
+    },
+    "packages/tanuki-linux-arm64-musl": {
+      "name": "@spacegoat/tanuki-linux-arm64-musl",
+      "version": "1.0.0",
+    },
+    "packages/tanuki-linux-x64": {
+      "name": "@spacegoat/tanuki-linux-x64",
+      "version": "1.0.0",
+    },
+    "packages/tanuki-linux-x64-musl": {
+      "name": "@spacegoat/tanuki-linux-x64-musl",
+      "version": "1.0.0",
+    },
+    "packages/tanuki-win32-x64": {
+      "name": "@spacegoat/tanuki-win32-x64",
+      "version": "1.0.0",
     },
   },
   "packages": {
@@ -51,6 +86,20 @@
     "@opentui/react": ["@opentui/react@0.6.6", "", { "dependencies": { "@opentui/core": "0.6.6", "react-reconciler": "^0.33.0" }, "peerDependencies": { "react": ">=19.2.0", "react-devtools-core": "^7.0.1", "ws": "^8.18.0" } }, "sha512-KBLwg+UDwBFx4jRETLHSgPm24Xx6sbKXGysG/7pjA6Db298S6LcqNS2WAIJ7/tNy1piUekhQbZFLDFkHx01ZSw=="],
 
     "@spacegoat/tanuki": ["@spacegoat/tanuki@workspace:packages/tanuki"],
+
+    "@spacegoat/tanuki-darwin-arm64": ["@spacegoat/tanuki-darwin-arm64@workspace:packages/tanuki-darwin-arm64"],
+
+    "@spacegoat/tanuki-darwin-x64": ["@spacegoat/tanuki-darwin-x64@workspace:packages/tanuki-darwin-x64"],
+
+    "@spacegoat/tanuki-linux-arm64": ["@spacegoat/tanuki-linux-arm64@workspace:packages/tanuki-linux-arm64"],
+
+    "@spacegoat/tanuki-linux-arm64-musl": ["@spacegoat/tanuki-linux-arm64-musl@workspace:packages/tanuki-linux-arm64-musl"],
+
+    "@spacegoat/tanuki-linux-x64": ["@spacegoat/tanuki-linux-x64@workspace:packages/tanuki-linux-x64"],
+
+    "@spacegoat/tanuki-linux-x64-musl": ["@spacegoat/tanuki-linux-x64-musl@workspace:packages/tanuki-linux-x64-musl"],
+
+    "@spacegoat/tanuki-win32-x64": ["@spacegoat/tanuki-win32-x64@workspace:packages/tanuki-win32-x64"],
 
     "@types/bun": ["@types/bun@1.4.3", "", { "dependencies": { "bun-types": "1.4.3" } }, "sha512-N67Pqy8JXbAY/j0tNraS3V5mubGvc6rrrNDmDCtZLlFzccbUJPDb0tvgUBC5q4m8ybkP93Jcn1QB+RYQ6PvBhw=="],
 

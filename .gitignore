@@ -19,6 +19,9 @@ dist/
 *.tsbuildinfo
 # Bun's compile cache: one ~65 MB binary per build, dropped beside the source.
 *.bun-build
+# The platform packages' binaries. The manifests beside them are committed; the
+# tens of megabytes they serve are not. `bun run build:packages` writes them.
+packages/tanuki-*/bin/
 
 # Logs and diagnostics
 *.log

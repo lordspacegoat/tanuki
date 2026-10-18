@@ -26,16 +26,25 @@
     "url": "git+https://github.com/lordspacegoat/tanuki.git",
     "directory": "packages/tanuki"
   },
-  "optionalDependencies": {},
-  "dependencies": {
+  "optionalDependencies": {
+    "@spacegoat/tanuki-darwin-arm64": "1.0.0",
+    "@spacegoat/tanuki-darwin-x64": "1.0.0",
+    "@spacegoat/tanuki-linux-arm64": "1.0.0",
+    "@spacegoat/tanuki-linux-arm64-musl": "1.0.0",
+    "@spacegoat/tanuki-linux-x64": "1.0.0",
+    "@spacegoat/tanuki-linux-x64-musl": "1.0.0",
+    "@spacegoat/tanuki-win32-x64": "1.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
     "@opentui/core": "0.6.6",
     "@opentui/keymap": "0.6.6",
     "@opentui/react": "0.6.6",
+    "@types/react": "^19.2.0",
     "react": "^19.2.0",
     "zod": "^4.0.0"
-  },
-  "devDependencies": {
-    "@types/react": "^19.2.0"
   },
   "scripts": {
     "dev": "bun run src/index.ts",

@@ -294,9 +294,10 @@ embeds Bun, behind a dependency-free Node shim.
 ```sh
 bun install
 bun test              # unit and interface tests
-bun run typecheck     # tsc --noEmit
+bun run typecheck     # tsc --noEmit, the package and the build script
 bun run dev           # run from source
-bun run build         # compile to packages/tanuki/dist/tanuki
+bun run build         # compile this machine's binary to packages/tanuki/dist/tanuki
+bun run build:packages  # compile every platform binary into its package (all seven)
 ```
 
 ### Layout
@@ -313,7 +314,16 @@ packages/tanuki/
     tui/              theme, list rules, key handling, masked field, components,
                       screens, app
   test/               fake transport, render harness, unit and interface tests
+packages/tanuki-<os>-<arch>[-musl]/
+  package.json        a published package: declares os, cpu and (for musl) libc,
+                      so npm installs exactly one of them on any machine
+  bin/tanuki          the compiled binary it serves — built, never committed
 ```
+
+`scripts/build-platform.ts` writes those binaries and knows which Bun target and
+which OpenTUI native library each one needs; `.github/workflows/release.yml` runs
+it once per platform. The shim, the build script and the manifests are kept in
+step by tests, not by each other.
 
 The layers point one way: `tui` depends on `services`, which depends on
 `config` and `cloudflare`. Nothing in `services` or `cloudflare` imports from
@@ -355,6 +365,42 @@ that is a hard rule, not a convention.
 - Decisions and their rationale are recorded in an internal decision record.
   The rules that matter for the code are restated where they are enforced, and
   the ones that matter for users are in this file and in `SECURITY.md`.
+
+### Releasing
+
+A release is a tag. `v1.2.3` must equal the `version` in
+`packages/tanuki/package.json` (and `src/version.ts` — a test keeps those two in
+step), and the tag starts a workflow that:
+
+1. asks `scripts/build-platform.ts` which targets exist, and builds one per
+   runner — macOS targets on macOS, because a darwin binary carries the
+   linker-signed ad-hoc signature macOS arm64 needs to execute it;
+2. runs each binary it can, and checks the version string it prints;
+3. publishes the seven platform packages, then the shim.
+
+`NPM_TOKEN` must be set in the repository's Actions secrets; without it the
+workflow still builds and warns that it published nothing. Publishing is
+skipped for a package whose version is already on npm, so a re-run after a
+partial failure finishes the job instead of needing a version bump.
+
+The first publish of a version, and any re-run, has no new tag to push, so the
+workflow also takes a manual dispatch with **publish** ticked.
+
+Nothing needs committing to release: the binaries are built in CI, and the
+platform manifests are already in the repository with an empty `bin/`. To see
+what a package would contain:
+
+```sh
+bun run build:packages                    # or: bun run scripts/build-platform.ts --target linux-x64
+cd packages/tanuki-linux-x64 && npm pack --dry-run
+```
+
+That build fetches the OpenTUI native library for each target from npm, and
+fails rather than shipping a binary whose native library is missing — a check
+that matters most for the targets that cannot be executed on the machine that
+built them. The Bun version in the workflow is pinned because it decides the
+runtime embedded in every binary, and `test/platform-packages.test.ts` keeps the
+shim, the target list and the platform manifests in agreement.
 
 ## Licence
 

@@ -1,0 +1,151 @@
+name: Release
+
+# Builds the platform packages and publishes them to npm. A tag is the normal
+# trigger; the manual trigger exists because the first publish of a version, and
+# any re-run after a partial failure, does not have a new tag to push.
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: Publish the built packages to npm
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  # The target list lives in scripts/build-platform.ts so that adding a platform
+  # cannot leave this workflow quietly building six of seven.
+  plan:
+    name: plan
+    runs-on: ubuntu-24.04
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          # Pinned: the Bun version decides the runtime embedded in every binary.
+          bun-version: 1.4.3
+      - id: matrix
+        name: ask the build script which targets exist
+        run: echo "matrix=$(bun run scripts/build-platform.ts --matrix)" >> "$GITHUB_OUTPUT"
+
+  build:
+    name: build ${{ matrix.target }}
+    needs: plan
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.3
+      - run: bun install --frozen-lockfile
+
+      - name: build ${{ matrix.target }}
+        run: bun run scripts/build-platform.ts --target ${{ matrix.target }}
+
+      # Cross-built binaries cannot be executed here, but the two targets whose
+      # runner is the same platform can, and they are the interesting ones: the
+      # macOS one is the target most likely to be rejected by the kernel, and
+      # the Linux one can be driven end to end.
+      - name: run the binary
+        if: (matrix.target == 'linux-x64' && runner.os == 'Linux') || (matrix.target == 'darwin-arm64' && runner.os == 'macOS')
+        run: |
+          binary="packages/tanuki-${{ matrix.target }}/bin/tanuki"
+          version=$(bun -e 'console.log(JSON.parse(await Bun.file("packages/tanuki/package.json").text()).version)')
+
+          # Proves the compiled binary carries the version being released.
+          test "$("$binary" --version)" = "tanuki $version"
+          "$binary" --help > /dev/null
+
+          # A non-TTY stdout must be refused rather than filled with escape codes.
+          status=0; "$binary" > non-tty.txt || status=$?
+          test "$status" -eq 1
+          grep -q "not a terminal" non-tty.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tanuki-${{ matrix.target }}
+          path: packages/tanuki-${{ matrix.target }}
+          if-no-files-found: error
+          retention-days: 7
+
+  publish:
+    name: publish
+    needs: build
+    if: github.event_name == 'push' || inputs.publish
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+      - uses: actions/download-artifact@v4
+        with:
+          path: incoming
+
+      # Not a failure: a fork or a fresh clone has no token, and the build is
+      # still worth having. Loud enough to be noticed, though.
+      - id: token
+        name: look for a publish token
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          if [ -n "$NPM_TOKEN" ]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "::warning title=npm publish skipped::NPM_TOKEN is not set in this repository, so the packages were built but not published. Add it under Settings → Secrets and variables → Actions, then re-run this workflow."
+          fi
+
+      - name: check the tag matches the version
+        if: steps.token.outputs.available == 'true' && startsWith(github.ref, 'refs/tags/v')
+        run: |
+          version=$(node -p "require('./packages/tanuki/package.json').version")
+          if [ "${GITHUB_REF_NAME#v}" != "$version" ]; then
+            echo "::error::tag ${GITHUB_REF_NAME} does not match version ${version} in packages/tanuki/package.json"
+            exit 1
+          fi
+
+      - name: publish to npm
+        if: steps.token.outputs.available == 'true'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          # Uploading and downloading an artifact does not preserve file modes:
+          # everything comes back 0644. A binary that is not executable fails on
+          # the user's machine with EACCES, and npm packs whatever mode it finds.
+          chmod +x incoming/*/bin/*
+
+          publish() {
+            local dir=$1 name version
+            name=$(node -p "require('./$dir/package.json').name")
+            version=$(node -p "require('./$dir/package.json').version")
+
+            # Makes a re-run after a partial failure possible. Failing here
+            # instead would mean the remaining packages could never be published
+            # without a version bump.
+            if npm view "$name@$version" version > /dev/null 2>&1; then
+              echo "$name@$version is already on npm; skipping"
+            else
+              echo "publishing $name@$version"
+              npm publish "$dir"
+            fi
+          }
+
+          # Platform packages first: the shim's optionalDependencies have to
+          # exist by the time anyone installs it.
+          for dir in incoming/*; do
+            [ -d "$dir" ] || continue
+            publish "$dir"
+          done
+
+          publish packages/tanuki

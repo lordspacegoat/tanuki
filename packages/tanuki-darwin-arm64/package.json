@@ -1,0 +1,23 @@
+{
+  "name": "@spacegoat/tanuki-darwin-arm64",
+  "version": "1.0.0",
+  "description": "Prebuilt darwin-arm64 binary for @spacegoat/tanuki",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lordspacegoat/tanuki.git",
+    "directory": "packages/tanuki-darwin-arm64"
+  },
+  "os": [
+    "darwin"
+  ],
+  "cpu": [
+    "arm64"
+  ],
+  "files": [
+    "bin"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

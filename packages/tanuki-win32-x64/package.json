@@ -1,0 +1,23 @@
+{
+  "name": "@spacegoat/tanuki-win32-x64",
+  "version": "1.0.0",
+  "description": "Prebuilt win32-x64 binary for @spacegoat/tanuki",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lordspacegoat/tanuki.git",
+    "directory": "packages/tanuki-win32-x64"
+  },
+  "os": [
+    "win32"
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "files": [
+    "bin"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}
