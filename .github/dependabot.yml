@@ -1,0 +1,35 @@
+version: 2
+
+# Dependency-update PRs.
+#
+# Two npm entries because this is a workspace: the root manifest holds the
+# toolchain, and the package that ships holds the runtime libraries. Dependabot
+# opens at most a few PRs per directory per run, so splitting them keeps the
+# toolchain and the runtime from crowding each other out.
+#
+# These are suggestions, not auto-merges. Two pins in this repository are
+# deliberate and a version bump there is a migration, not a routine update:
+#
+#   - the Bun version in `.github/workflows/release.yml`, because it decides the
+#     runtime embedded in every published binary;
+#   - `@opentui/core` and `@opentui/react`, which draw the interface and whose
+#     native library is fetched per platform at build time.
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: npm
+    directory: "/packages/tanuki"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+
+  # The release workflow pins the actions it uses; keep those current too.
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
