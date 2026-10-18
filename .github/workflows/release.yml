@@ -137,7 +137,13 @@ jobs:
               echo "$name@$version is already on npm; skipping"
             else
               echo "publishing $name@$version"
-              npm publish "$dir"
+              # The "./" is not decoration. npm parses a bare `incoming/foo` as
+              # the GitHub shorthand owner/repo — `npm-package-arg` sees the
+              # slash, decides it is a git spec, and runs
+              # `git ls-remote ssh://git@github.com/incoming/foo.git` instead of
+              # publishing the directory, which fails with exit code 128 and no
+              # public key. Prefixing the path marks it as a path.
+              npm publish "./$dir"
             fi
           }
 
