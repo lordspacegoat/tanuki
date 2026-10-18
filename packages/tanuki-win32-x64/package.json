@@ -1,7 +1,7 @@
 {
-  "name": "@spacegoat/tanuki-win32-x64",
-  "version": "1.0.1",
-  "description": "Prebuilt win32-x64 binary for @spacegoat/tanuki",
+  "name": "@kumokaizen/tanuki-win32-x64",
+  "version": "1.0.2",
+  "description": "Prebuilt win32-x64 binary for @kumokaizen/tanuki",
   "license": "MIT",
   "repository": {
     "type": "git",

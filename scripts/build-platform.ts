@@ -2,7 +2,7 @@
 /**
  * Builds the binary for one platform package.
  *
- * `@spacegoat/tanuki` is a Node shim; the application is a `bun build --compile`
+ * `@kumokaizen/tanuki` is a Node shim; the application is a `bun build --compile`
  * binary, and npm can only fetch one file per platform, so each platform has a
  * package of its own under `packages/tanuki-<os>-<arch>` — declaring `os`, `cpu`
  * and `libc` so npm installs exactly the right one — and the shim hands over to
@@ -165,7 +165,7 @@ function fail(message: string): never {
   process.exit(1);
 }
 
-/** The manifest of `@spacegoat/tanuki` itself, plus what is derived from it. */
+/** The manifest of `@kumokaizen/tanuki` itself, plus what is derived from it. */
 interface SourceManifest {
   [key: string]: unknown;
   name: string;

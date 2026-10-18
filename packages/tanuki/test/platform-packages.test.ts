@@ -70,13 +70,13 @@ async function shimManifest(): Promise<{
 /** The package names the shim can be asked for at all. */
 function shimPackages(): string[] {
   const source = readFileSync(SHIM, "utf8");
-  return [...source.matchAll(/"(@spacegoat\/tanuki-[a-z0-9-]+)"/g)].map((match) => match[1] as string);
+  return [...source.matchAll(/"(@kumokaizen\/tanuki-[a-z0-9-]+)"/g)].map((match) => match[1] as string);
 }
 
 /** The package name the shim asks for on this machine, by the same rule it uses. */
 function hostPackage() {
   const suffix = process.platform === "linux" && existsSync("/etc/alpine-release") ? "-musl" : "";
-  return `@spacegoat/tanuki-${process.platform}-${process.arch}${suffix}`;
+  return `@kumokaizen/tanuki-${process.platform}-${process.arch}${suffix}`;
 }
 
 /** A throwaway install with the shim in it, and a stand-in platform package. */
@@ -110,7 +110,7 @@ describe("platform packages", () => {
     // platform whose manifest nothing here has checked.
     expect(targets.toSorted()).toEqual(Object.keys(EXPECTED).toSorted());
 
-    const names = targets.map((target) => `@spacegoat/tanuki-${target}`);
+    const names = targets.map((target) => `@kumokaizen/tanuki-${target}`);
     const shim = await shimManifest();
 
     // Equal sets, not just one direction: a package nobody asks for is as
@@ -130,7 +130,7 @@ describe("platform packages", () => {
     for (const [target, expected] of Object.entries(EXPECTED)) {
       const manifest = await platformManifest(target);
 
-      expect(manifest.name).toBe(`@spacegoat/tanuki-${target}`);
+      expect(manifest.name).toBe(`@kumokaizen/tanuki-${target}`);
       expect(manifest.os).toEqual([expected.os]);
       expect(manifest.cpu).toEqual([expected.cpu]);
       expect(manifest.files).toEqual(["bin"]);

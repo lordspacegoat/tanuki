@@ -19,13 +19,13 @@ const require = createRequire(import.meta.url);
 
 /** platform-arch (plus libc tag on Linux) to npm package name. */
 const TARGETS = {
-  "darwin-arm64": "@spacegoat/tanuki-darwin-arm64",
-  "darwin-x64": "@spacegoat/tanuki-darwin-x64",
-  "linux-x64": "@spacegoat/tanuki-linux-x64",
-  "linux-arm64": "@spacegoat/tanuki-linux-arm64",
-  "linux-x64-musl": "@spacegoat/tanuki-linux-x64-musl",
-  "linux-arm64-musl": "@spacegoat/tanuki-linux-arm64-musl",
-  "win32-x64": "@spacegoat/tanuki-win32-x64",
+  "darwin-arm64": "@kumokaizen/tanuki-darwin-arm64",
+  "darwin-x64": "@kumokaizen/tanuki-darwin-x64",
+  "linux-x64": "@kumokaizen/tanuki-linux-x64",
+  "linux-arm64": "@kumokaizen/tanuki-linux-arm64",
+  "linux-x64-musl": "@kumokaizen/tanuki-linux-x64-musl",
+  "linux-arm64-musl": "@kumokaizen/tanuki-linux-arm64-musl",
+  "win32-x64": "@kumokaizen/tanuki-win32-x64",
 };
 
 function isMusl() {
@@ -72,7 +72,7 @@ try {
     `the binary package ${pkg} was not installed.\n` +
       `  This usually means the install ran with --omit=optional, or that\n` +
       `  ${process.platform}/${process.arch} is not a published target yet.\n` +
-      `  Reinstall with:  npm install -g @spacegoat/tanuki`,
+      `  Reinstall with:  npm install -g @kumokaizen/tanuki`,
   );
 }
 
