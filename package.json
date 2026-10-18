@@ -10,7 +10,8 @@
     "test": "bun test",
     "typecheck": "bun run --cwd packages/tanuki typecheck && tsc --noEmit -p scripts",
     "build": "bun run --cwd packages/tanuki build",
-    "build:packages": "bun run scripts/build-platform.ts"
+    "build:packages": "bun run scripts/build-platform.ts",
+    "screenshots": "bun run --cwd packages/tanuki screenshots"
   },
   "devDependencies": {
     "@types/bun": "latest",

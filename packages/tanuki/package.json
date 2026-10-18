@@ -50,6 +50,7 @@
     "dev": "bun run src/index.ts",
     "test": "bun test",
     "typecheck": "tsc --noEmit",
-    "build": "bun build src/index.ts --compile --outfile dist/tanuki"
+    "build": "bun build src/index.ts --compile --outfile dist/tanuki",
+    "screenshots": "bun run scripts/screenshots.tsx"
   }
 }

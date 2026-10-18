@@ -11,6 +11,8 @@ tanuki
 > **Naming.** The npm name `tanuki` is held by an unrelated package, so the
 > install string is scoped. The command is still `tanuki`.
 
+![The zone explorer, listing zones across three Cloudflare accounts with the selected zone's detail on the right](assets/screenshots/zones.svg)
+
 - [Install](#install)
 - [First run](#first-run)
 - [Using Tanuki](#using-tanuki)
@@ -50,6 +52,8 @@ non-interactive mode yet, and that is deliberate for this release.
 The first run has no configuration to open, so Tanuki walks you through two
 steps.
 
+![The first-run screen explaining that the token is handed to the macOS Keychain](assets/screenshots/onboarding.svg)
+
 **1. How your token is stored.** Tanuki keeps your Cloudflare API token in your
 operating system's credential store — the macOS Keychain, libsecret on Linux, or
 Windows Credential Manager. It tells you which mechanism it actually detected,
@@ -85,6 +89,8 @@ should not be given, account-wide access.
 A configuration is one named client, project or environment: its own token, its
 own discovered zones, its own groups and preferences. A configuration file holds
 no secrets, so copying or sharing one does not share a credential.
+
+![The configuration selector, with three configurations and one marked active](assets/screenshots/config-select.svg)
 
 Running `tanuki` with no arguments opens the selector; `tanuki --config <name>`
 opens one directly. If `--config` names something that does not exist, Tanuki
@@ -152,6 +158,12 @@ how many accounts, which plan sets the pace, and whether the whole thing fits
 inside the account's burst limit or has to be paced out over time. Then it shows
 live progress.
 
+![The purge confirmation counting 30 zones across 3 accounts, naming the slowest plan and the zones that will be skipped](assets/screenshots/purge-confirm.svg)
+
+![A purge in progress, with the progress bar showing 17 of 30 zones accepted](assets/screenshots/purge-running.svg)
+
+![The purge result, listing Cloudflare's own acknowledgement for each zone](assets/screenshots/purge-result.svg)
+
 Cloudflare's purge limit is per **account** and shared across that account's
 zones — as low as 5 requests per minute on Free, with a burst of 25. Tanuki
 paces requests to the slowest plan in each account and runs accounts in
@@ -176,6 +188,8 @@ returned for it, and the round trip that took.
 
 Groups are named sets of zones, and a zone can belong to more than one. `g` from
 the zone list opens them.
+
+![The groups screen, listing three groups and the zone count a purge would reach for the selected one](assets/screenshots/groups.svg)
 
 - **`enter`** opens the highlighted group's membership: a checkbox list of every
   zone, filtered as you type, with each row showing the other groups that already
@@ -298,6 +312,7 @@ bun run typecheck     # tsc --noEmit, the package and the build script
 bun run dev           # run from source
 bun run build         # compile this machine's binary to packages/tanuki/dist/tanuki
 bun run build:packages  # compile every platform binary into its package (all seven)
+bun run screenshots   # re-render the README screenshots into assets/screenshots
 ```
 
 ### Layout
@@ -314,6 +329,7 @@ packages/tanuki/
     tui/              theme, list rules, key handling, masked field, components,
                       screens, app
   test/               fake transport, render harness, unit and interface tests
+  scripts/            renders the README screenshots from a seeded configuration
 packages/tanuki-<os>-<arch>[-musl]/
   package.json        a published package: declares os, cpu and (for musl) libc,
                       so npm installs exactly one of them on any machine
@@ -344,6 +360,16 @@ that is a hard rule, not a convention.
   because the renderer's own `waitForFrame` cannot see asynchronous work. The
   passphrase tests drive the real credential store over a temporary directory,
   so the vault they unlock is a real vault.
+
+### Screenshots
+
+The pictures in this file are generated, not taken by hand. `bun run
+screenshots` drives the real application — the real React tree, renderer and key
+handling — over a seeded configuration in a temporary directory and a faked
+transport, then paints each captured frame to an SVG in `assets/screenshots`. It
+cannot reach the network or a real credential, and the clock is frozen, so the
+output is byte-for-byte reproducible and safe to commit. Re-run it when a
+screen's layout changes, and commit the result.
 
 ### Conventions worth knowing
 
