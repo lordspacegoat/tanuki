@@ -70,7 +70,7 @@ jobs:
           test "$status" -eq 1
           grep -q "not a terminal" non-tty.txt
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: tanuki-${{ matrix.target }}
           path: packages/tanuki-${{ matrix.target }}
