@@ -1,6 +1,6 @@
 {
   "name": "@kumokaizen/tanuki-linux-arm64",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Prebuilt linux-arm64 binary for @kumokaizen/tanuki",
   "license": "MIT",
   "repository": {

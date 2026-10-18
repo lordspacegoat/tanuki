@@ -11,7 +11,7 @@
     },
     "packages/tanuki": {
       "name": "@kumokaizen/tanuki",
-      "version": "1.0.2",
+      "version": "1.0.3",
       "bin": {
         "tanuki": "bin/tanuki.js",
       },
@@ -35,31 +35,31 @@
     },
     "packages/tanuki-darwin-arm64": {
       "name": "@kumokaizen/tanuki-darwin-arm64",
-      "version": "1.0.2",
+      "version": "1.0.3",
     },
     "packages/tanuki-darwin-x64": {
       "name": "@kumokaizen/tanuki-darwin-x64",
-      "version": "1.0.2",
+      "version": "1.0.3",
     },
     "packages/tanuki-linux-arm64": {
       "name": "@kumokaizen/tanuki-linux-arm64",
-      "version": "1.0.2",
+      "version": "1.0.3",
     },
     "packages/tanuki-linux-arm64-musl": {
       "name": "@kumokaizen/tanuki-linux-arm64-musl",
-      "version": "1.0.2",
+      "version": "1.0.3",
     },
     "packages/tanuki-linux-x64": {
       "name": "@kumokaizen/tanuki-linux-x64",
-      "version": "1.0.2",
+      "version": "1.0.3",
     },
     "packages/tanuki-linux-x64-musl": {
       "name": "@kumokaizen/tanuki-linux-x64-musl",
-      "version": "1.0.2",
+      "version": "1.0.3",
     },
     "packages/tanuki-win32-x64": {
       "name": "@kumokaizen/tanuki-win32-x64",
-      "version": "1.0.2",
+      "version": "1.0.3",
     },
   },
   "packages": {

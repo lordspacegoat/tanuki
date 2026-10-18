@@ -79,6 +79,18 @@ function hostPackage() {
   return `@kumokaizen/tanuki-${process.platform}-${process.arch}${suffix}`;
 }
 
+/**
+ * Extra flags for running the shim, per runtime.
+ *
+ * Given a name it cannot resolve, Bun installs it from the registry on the spot
+ * and then resolves it — so the "the platform package is missing" case stops
+ * being reproducible the moment this package is actually published, and the test
+ * downloads the published binary to prove it. It did exactly that. `--no-install`
+ * keeps resolution local, which the no-network rule in the README requires. Node
+ * has no such behaviour and takes no flag.
+ */
+const RUNTIME_FLAGS = process.versions.bun ? ["--no-install"] : [];
+
 /** A throwaway install with the shim in it, and a stand-in platform package. */
 async function fakeInstall(body: string | null) {
   const home = await mkdtemp(join(tmpdir(), "tanuki-install-"));
@@ -96,7 +108,9 @@ async function fakeInstall(body: string | null) {
 
   return {
     run: (...args: string[]) =>
-      spawnSync(process.execPath, [join(home, "bin", "tanuki.js"), ...args], { encoding: "utf8" }),
+      spawnSync(process.execPath, [...RUNTIME_FLAGS, join(home, "bin", "tanuki.js"), ...args], {
+        encoding: "utf8",
+      }),
     cleanup: () => rm(home, { recursive: true, force: true }),
   };
 }

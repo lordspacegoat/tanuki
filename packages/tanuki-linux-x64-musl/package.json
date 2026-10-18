@@ -1,6 +1,6 @@
 {
   "name": "@kumokaizen/tanuki-linux-x64-musl",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Prebuilt linux-x64-musl binary for @kumokaizen/tanuki",
   "license": "MIT",
   "repository": {

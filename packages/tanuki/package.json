@@ -1,6 +1,6 @@
 {
   "name": "@kumokaizen/tanuki",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Manage Cloudflare API credentials, group zones, and purge caches from the terminal",
   "type": "module",
   "license": "MIT",
@@ -27,13 +27,13 @@
     "directory": "packages/tanuki"
   },
   "optionalDependencies": {
-    "@kumokaizen/tanuki-darwin-arm64": "1.0.2",
-    "@kumokaizen/tanuki-darwin-x64": "1.0.2",
-    "@kumokaizen/tanuki-linux-arm64": "1.0.2",
-    "@kumokaizen/tanuki-linux-arm64-musl": "1.0.2",
-    "@kumokaizen/tanuki-linux-x64": "1.0.2",
-    "@kumokaizen/tanuki-linux-x64-musl": "1.0.2",
-    "@kumokaizen/tanuki-win32-x64": "1.0.2"
+    "@kumokaizen/tanuki-darwin-arm64": "1.0.3",
+    "@kumokaizen/tanuki-darwin-x64": "1.0.3",
+    "@kumokaizen/tanuki-linux-arm64": "1.0.3",
+    "@kumokaizen/tanuki-linux-arm64-musl": "1.0.3",
+    "@kumokaizen/tanuki-linux-x64": "1.0.3",
+    "@kumokaizen/tanuki-linux-x64-musl": "1.0.3",
+    "@kumokaizen/tanuki-win32-x64": "1.0.3"
   },
   "publishConfig": {
     "access": "public"
