@@ -39,7 +39,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@opentui/core": "0.6.6",
+    "@opentui/core": "0.8.2",
     "@opentui/keymap": "0.6.6",
     "@opentui/react": "0.6.6",
     "@types/react": "^19.2.0",
